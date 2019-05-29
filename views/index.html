@@ -3,23 +3,16 @@
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
      <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css">
      <link rel="stylesheet" href="./public/css/style.css">
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css">
-    <script src="./public/animatedModal.js-master/animatedModal.js"></script>
-    <title>Hello, world!</title>
+    <title>つらくなったら押すボタン</title>
   </head>
   <body>
     <div class="container">
       <div class="modal-button">
-      <button class="btn tn-default btn-lg btn-block" id="modal" href="#animatedModal">つらくなったら押すボタン</button>
+        <button type="button" class="btn btn-primary" id="modal" href="#animatedModal">つらくなったら押すボタン</button>
       </div>
     </div>
 
@@ -27,43 +20,47 @@
       <div class="modalWrapper">
         <span class="close-animatedModal">×</span>
         <div class="modal-animatedModal">
-          <h1 id="text">ラッコの毛は8億本</h1>
+          <h1 id="text"></h1>
         </div>
       </div>
     </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="./public/animatedModal.js-master/animatedModal.js"></script>
   <script>
-  $(function() {
-    $('#modal').animatedModal({
-      modalTaget:'animatedModal',
+    $("#modal").animatedModal({
       animatedIn:'bounceInUp',
-      animatedOut:'bounceOutDown',
-      animationDuration:'2s',
-      color:'#15b7ff',
+      animatedOut:'bounceOut',
+      //animationDuration:'.5s',
+      color: '#15b7ff',
+      beforeOpen: function() {
+        console.log(location.origin);
+        var url = location.origin + "/turai";
+        console.log(url);
+  
+        const request = new XMLHttpRequest();
+  
+        request.open("GET",url);
+        request.addEventListener("load", (event) => {
+          $('#text').text(event.target.responseText);
+          console.log(event.target.status);
+          console.log(event.target.responseText);
+          var $allMsg = $('#text');
+          var $wordList = $('#text').html().split("");
+          $('#text').html("");
+          $.each($wordList, function(idx, elem) {
+          var newEL = $("<span/>").text(elem).css({ opacity: 0 });
+          newEL.appendTo($allMsg);
+          newEL.delay(idx * 70);
+          newEL.animate({ opacity: 1 }, 1100);
+          });
+        });
+        request.send();
+      }
     });
-  });
-
-  $(function () {
-    $('#modal').bind('click', function() {
-      console.log(location.origin);
-      var url = location.origin + "/turai";
-      console.log(url);
-
-      const request = new XMLHttpRequest();
-
-      request.open("GET",url);
-      request.addEventListener("load", (event) => {
-        $('#text').text(event.target.responseText);
-        console.log(event.target.status);
-        console.log(event.target.responseText);
-      });
-      request.send();
-    })
-  })
-
   </script>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   </body>
 </html>
