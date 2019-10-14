@@ -2,15 +2,42 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"io"
 	"log"
 	"math/rand"
 	"net/http"
 	"os"
+	"time"
 )
 
 func main() {
-	router := gin.Default()
+	gin.DisableConsoleColor()
+
+	f, _ := os.Create("access.log")
+	gin.DefaultWriter = io.MultiWriter(f)
+
+	gin.SetMode(gin.ReleaseMode)
+
+	router := gin.New()
+
+	router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
+
+		// your custom format
+		return fmt.Sprintf("[%s] \"%s %s %s %d %s \"%s\" %s\"\n",
+			param.TimeStamp.Format(time.RFC1123),
+			param.Method,
+			param.Path,
+			param.Request.Proto,
+			param.StatusCode,
+			param.Latency,
+			param.Request.UserAgent(),
+			param.ErrorMessage,
+		)
+	}))
+	router.Use(gin.Recovery())
+
 	router.Static("/public", "./public")
 	router.LoadHTMLGlob("views/*")
 
@@ -39,7 +66,6 @@ func turaiGET(c *gin.Context) {
 	length := len(lines)
 	num := rand.Intn(length)
 
-	log.Println(lines[num])
 	turaiText = lines[num]
 
 	c.String(http.StatusOK, turaiText)
