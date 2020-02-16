@@ -1,19 +1,13 @@
-@media screen and (max-width: 479px) { /*ウィンドウ幅が最大479pxまでの場合に適用*/
-html {
-  font-size: 9px;
-}
-}
-
 .close-animatedModal {
+  text-align: center;
+  height:5rem;
   position: absolute;
   right: 1rem;
   top: 1rem;
-  font-size: 1.8rem;
-  font-color: #ffffff;
+  font-size: 3rem;
   cursor: pointer;
-  border: 1px #fff solid;
-  padding: 1rem;
-  padding-top: 0rem;
+  margin: 0rem;
+  background-color: #ffffff;
 }
 
 .modalWrapper {
@@ -37,22 +31,24 @@ html {
 
 .container {
   z-index:1;
+  left:0rem;
+  margin: 0rem;
+  padding:0rem;
 }
 
 .modal-button {
   text-align: center;
-  font-size: 1.5rem;
   z-index:1;
 }
 
 #modal {
-  width: 40rem;
-  margin: 2rem;
-  padding: 1.3rem;
+  width: 35rem;
+  height: 6rem;
+  margin-top:40%;
   font-size: 2.3rem;
   z-index:1;
 }
 
 #text {
-  font-size: 3.4rem;
+  font-size: 4.5rem;
 }
