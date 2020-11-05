@@ -1,0 +1,3 @@
+[submodule "public/js/animatedModal.js"]
+	path = public/js/animatedModal.js
+	url = git@github.com:joaopereirawd/animatedModal.js.git
