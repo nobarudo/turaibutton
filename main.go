@@ -3,28 +3,30 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"io"
 	"log"
 	"math/rand"
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	gin.DisableConsoleColor()
 
-	f, _ := os.Create("access.log")
-	gin.DefaultWriter = io.MultiWriter(f)
+	access_log, err := os.OpenFile("access.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0777)
+	if err != nil {
+		fmt.Println(err)
+	}
+	gin.DefaultWriter = io.MultiWriter(access_log)
 
 	gin.SetMode(gin.ReleaseMode)
 
 	router := gin.New()
 
 	router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
-
-		// your custom format
 		return fmt.Sprintf("%s - [%s] \"%s %s %s %d %s \"%s\" %s\"\n",
 			param.ClientIP,
 			param.TimeStamp.Format(time.RFC1123),
@@ -37,6 +39,7 @@ func main() {
 			param.ErrorMessage,
 		)
 	}))
+
 	router.Use(gin.Recovery())
 
 	router.Static("/public", "./public")
