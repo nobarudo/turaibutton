@@ -1,6 +1,6 @@
 :root {font-size: 15px;}
 @media (max-width: 599px) {
-	:root {font-size: 9px;}
+	:root {font-size: 8px;}
 }
 
 body {
@@ -12,7 +12,7 @@ body {
 button {
   padding: 1rem 2rem;
   margin-top:45%;
-  font-size: 2rem;
+  font-size: 2.1rem;
   background-color: #87cefa;
   border: none;
   border-radius: 0.5rem;
@@ -20,7 +20,7 @@ button {
 
 span {
   font-weight: normal;
-  font-size: 3.5rem;
+  font-size: 3.2rem;
 }
 
 .container {
@@ -51,7 +51,7 @@ span {
 
 .modal-animatedModal {
   position: absolute;
-  top: 40%;
+  top: 38%;
   left: 2rem;
   margin: auto;
   height: 3rem;
